@@ -8,7 +8,9 @@ from .constants import Quiz1
 
 def takeQuizView(request):
     if request.method == 'POST':
-        pass
+        res = request.POST
+        print(res)
+        return redirect('dc:takeQuiz')
     else:
         context = {}
         quiz1 = Quiz1()
