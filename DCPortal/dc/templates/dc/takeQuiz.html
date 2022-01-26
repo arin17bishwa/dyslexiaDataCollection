@@ -21,29 +21,30 @@
             max-width: 200px;
         }
     </style>
-    {% for question in quiz1 %}
-        <p>{{ question.words }}</p>
-        <audio controls>
-            <source src="{{ question.file }}">
-        </audio>
-
-        {% for option in question.options %}
-            <ul>
-                <li>{{ option }}</li>
-            </ul>
-        {% endfor %}
-
-    {% endfor %}
 
 
     <div class="container">
         <div class="row">
             <div class="col-lg-7 offset-lg-1">
                 <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    {% for question in quiz1 %}
+                        {{ forloop.counter }})
+                        <p>{{ question.words }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                        {% for option in question.options %}
+                            <input type="radio" id="{{ forloop.counter }}" value="{{ forloop.counter0 }}">
+                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+                        {% endfor %}
+
+                    {% endfor %}
+
 
 
                     <!-- Submit btn -->
-                    {#                    <button class="submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>#}
+                    <button class="submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
                 </form>
             </div>
         </div>
