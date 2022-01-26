@@ -13,7 +13,7 @@ class Quiz1:
              "জল ।বই। টই",
              "জল।হয়। টল",
              "আলাপ। গোলাপ। খাওয়া ",
-             "রানী ।রাজা।। খাজা",
+             "রানী । রাজা। খাজা",
              "উথথান।আগুন । পতন",
 
              "আকাশ। বাতাশ। সবুজ ",
@@ -21,7 +21,7 @@ class Quiz1:
              "ঠাকুর । পুকুর।সৌন্দর্য ",
              "বদল। বাসন । কসন",
              "হাঁড়ি । কুড়ি। ফল ",
-             "ডাল। ভাত।। সংঘাত",
+             "ডাল। ভাত। সংঘাত",
              "নাকানি। চোবানি। আঘাত ",
              "যাওয়া । ওলট। পালট",
              "শুম্ভ।কালো । নিশুম্ভ",
@@ -82,3 +82,29 @@ class Quiz1:
                 }
             )
         return arr
+
+    def optionToArgmax(self, question: int, answer: int):
+        opt = self.options[question][answer]
+        ans = [0] * 3
+        for i in range(3):
+            if self.split_words[question][i] in opt:
+                ans[i] = 1
+        return tuple(ans)
+
+    def score(self, obj):
+
+        def clean():
+            temp = {
+                i: int(obj.get(str(i + 1), 0))
+                for i in range(self.n)
+            }
+            return temp
+
+        res = clean()
+        answers = [
+            self.optionToArgmax(i, res[i]) == self.ANSWERS[i]
+            for i in range(self.n)
+        ]
+
+        print(res)
+        return sum(answers)
