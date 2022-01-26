@@ -27,6 +27,10 @@
         <div class="row">
             <div class="col-lg-7 offset-lg-1">
                 <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"><br><br>
+                    <label for="Age">Age:</label>
+                    <input type="number" id="age" name="age"><br><br>
                     {% for question in quiz1 %}
                         {{ forloop.counter }})
                         <p>{{ question.words }}</p>
