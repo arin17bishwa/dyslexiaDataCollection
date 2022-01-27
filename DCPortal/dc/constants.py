@@ -197,18 +197,18 @@ class Quiz2:
 
 class Quiz3:
     PARAGRAPH = " মিতা আর গীতা ফল আর মিষ্টি খেতে ভালবাসে।ওদের দুটি প্রিয় ফল, একটি কলা আর একটি আম। গ্রীষ্মের সময় ওরা প্রতিদিন ১ টি আম দুধের সাথে খেত। মিতা সন্দেশ এবং গীতা লাড্ডু খেতে খুব ভালবাসে।তারা প্রায়ই স্কুলে তাদের টিফিনে মিষ্টি আনত। "
-    QUESTIONS = [" মিতা আর গীতা কি ভালোবাসতো বা পছন্দ করত? ", " তাদের প্রিয় ফল  কি ছিল ? ", " তাদের প্রিয় মিষ্টি কি ছিল? ", " গ্রীষ্মের সময় ওরা প্রতিদিন কি খেত? ", " তোমার প্রিয় ফল কি ? " ]
-    OPTIONS = [ [ "ফল র মিষ্টি", "মুলো র বেগুন", "পটল র পেয়াঞ্জ", "রুটি র ভাত" ],
-                [ "জাম র কাঁঠাল", "দুধ র ঘী", "কলা র আম", "লেবু র নাসপাতি" ], 
-                [ "সন্দেশ র লাড্ডু", "রসগল্লা র পানতুয়া", "রস্মালাই র কদম", "গাজর র হালুয়া" ],
-                [ "আম দুধে", "কমলা", "জল", "ফল" ],
-                [ "আম", "জাম", "কাঁঠাল", "অন্যান্য" ] ]
+    QUESTIONS = [" মিতা আর গীতা কি ভালোবাসতো বা পছন্দ করত? ", " তাদের প্রিয় ফল  কি ছিল ? ",
+                 " তাদের প্রিয় মিষ্টি কি ছিল? ", " গ্রীষ্মের সময় ওরা প্রতিদিন কি খেত? ", " তোমার প্রিয় ফল কি ? "]
+    OPTIONS = [["ফল র মিষ্টি", "মুলো র বেগুন", "পটল র পেয়াঞ্জ", "রুটি র ভাত"],
+               ["জাম র কাঁঠাল", "দুধ র ঘী", "কলা র আম", "লেবু র নাসপাতি"],
+               ["সন্দেশ র লাড্ডু", "রসগল্লা র পানতুয়া", "রস্মালাই র কদম", "গাজর র হালুয়া"],
+               ["আম দুধে", "কমলা", "জল", "ফল"],
+               ["আম", "জাম", "কাঁঠাল", "অন্যান্য"]]
     ANSWERS = [(0),
                (2),
                (0),
                (0),
-               (0),]
-    
+               (0), ]
 
     def __init__(self):
         self.n = len(self.QUESTIONS)
@@ -231,6 +231,39 @@ class Quiz3:
             lang='bn',
             slow='True'
         ).save(os.path.join(base_path, self.para_audio_name))
+
+    def serialize(self):
+        arr = {
+            'questions': [{
+                'question': self.QUESTIONS[i],
+                'options': self.OPTIONS[i],
+                'file': self.files[i]
+            }
+                for i in range(self.n)],
+            'paragraph': self.PARAGRAPH,
+            'paragraph_file': self.files[-1]
+        }
+        return arr
+
+    def score(self, obj):
+        def clean():
+            print(obj)
+            temp = {
+                i: int(obj.get(str(i + 1), 0))
+                for i in range(self.n)
+            }
+            return temp
+
+        res = clean()
+        score = sum(self.ANSWERS[i] == res[i] for i in range(self.n))
+        answers = {
+            "score": score,
+            "responses": {
+                i + 1: self.OPTIONS[i][res[i]]
+                for i in range(self.n)
+            }
+        }
+        return answers
 
 
 class Quiz4:
