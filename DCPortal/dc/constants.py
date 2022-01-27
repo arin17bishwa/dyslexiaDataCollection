@@ -174,6 +174,26 @@ class Quiz2:
             )
         return arr
 
+    def score(self, obj):
+        def clean():
+            print(obj)
+            temp = {
+                i: int(obj.get(str(i + 1), 0))
+                for i in range(self.n)
+            }
+            return temp
+
+        res = clean()
+        score = sum(self.ANSWERS[i] == res[i] for i in range(self.n))
+        answers = {
+            "score": score,
+            "responses": {
+                i + 1: self.OPTIONS[i][res[i]]
+                for i in range(self.n)
+            }
+        }
+        return answers
+
 
 class Quiz3:
     PARAGRAPH = ""

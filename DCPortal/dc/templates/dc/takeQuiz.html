@@ -47,6 +47,21 @@
 
                     {% endfor %}
 
+                    {% for question in quiz2 %}
+                        {{ forloop.counter }})
+                        <p>{{ question.question }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                        {% for option in question.options %}
+                            <input type="radio" name="{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                                   value="{{ forloop.counter0 }}">
+                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+
+                        {% endfor %}
+
+                    {% endfor %}
 
 
                     <!-- Submit btn -->
