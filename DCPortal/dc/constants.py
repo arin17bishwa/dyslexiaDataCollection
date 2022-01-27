@@ -269,22 +269,64 @@ class Quiz3:
 class Quiz4:
     LETTERS = ["উ", "শ", "এ", "র", "ন", "ঈ", "ড়", "ঋ", "ণ", "ৎ"]
     WORDS = ["নীল",
-            "হাতি",
-            "মিত্র",
-            "খুব",
-            "কঠিন",
-            "সূর্য",
-            "চন্দ্র",
-            "চেষ্টা",
-            "হাস্য",
-            "ক্লান্ত",
-            "দ্রুত",
-            "কর্তব্য",
-            "দৃঢ়",
-            "জোঁক",
-            "স্থির",
-            "পরীক্ষা",
-            "প্রাচীন",
-            "মুশকিল",
-            "উপবাস",
-            "শক্তিশালী"]
+             "হাতি",
+             "মিত্র",
+             "খুব",
+             "কঠিন",
+             "সূর্য",
+             "চন্দ্র",
+             "চেষ্টা",
+             "হাস্য",
+             "ক্লান্ত",
+             "দ্রুত",
+             "কর্তব্য",
+             "দৃঢ়",
+             "জোঁক",
+             "স্থির",
+             "পরীক্ষা",
+             "প্রাচীন",
+             "মুশকিল",
+             "উপবাস",
+             "শক্তিশালী"]
+
+    def __init__(self):
+        self.letters_n = len(self.LETTERS)
+        self.words_n = len(self.WORDS)
+        self.generateAudio()
+        self.files = {
+            'words': [os.path.join('media', 'r4', 'words', '{:02d}.mp3'.format(i + 1)) for i in range(self.words_n)],
+            'letters': [os.path.join('media', 'r4', 'letters', '{:02d}.mp3'.format(i + 1)) for i in
+                        range(self.letters_n)]
+        }
+
+    def generateAudio(self):
+        base_path = os.path.join(settings.MEDIA_ROOT, 'r4')
+        if os.path.exists(base_path):
+            return
+        os.mkdir(base_path)
+        letter_path = os.path.join(base_path, 'letters')
+        word_path = os.path.join(base_path, 'words')
+        os.mkdir(letter_path)
+        os.mkdir(word_path)
+
+        for idx, ele in enumerate(self.LETTERS):
+            file_path = os.path.join(letter_path, '{:02d}.mp3'.format(idx + 1))
+            _ = gTTS(text=ele, lang='bn', slow='False').save(file_path)
+
+        for idx, ele in enumerate(self.WORDS):
+            file_path = os.path.join(word_path, '{:02d}.mp3'.format(idx + 1))
+            _ = gTTS(text=ele, lang='bn', slow='False').save(file_path)
+
+    def serialize(self):
+        arr = {
+            'words': [{
+                'word': self.WORDS[i],
+                'file': self.files['words'][i]
+            } for i in range(self.words_n)],
+            'letters': [{
+                'letter': self.LETTERS[i],
+                'file': self.files['letters'][i]
+            } for i in range(self.letters_n)]
+
+        }
+        return arr
