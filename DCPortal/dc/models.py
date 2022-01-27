@@ -13,3 +13,10 @@ class Data(models.Model):
     answer1 = models.JSONField(null=True)
     answer2 = models.JSONField(null=True)
     answer3 = models.JSONField(null=True)
+
+    def __str__(self):
+        return "Name:{} Age:{} ({},{},{})".format(
+            self.name,
+            self.age,
+            self.score1, self.score2, self.score3
+        )
