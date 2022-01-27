@@ -26,3 +26,6 @@ def takeQuizView(request):
             'quiz1': quiz1.serialize()
         }
         return render(request, 'dc/takeQuiz.html', context=context)
+
+def home(request):
+    return render(request, 'home.html')
