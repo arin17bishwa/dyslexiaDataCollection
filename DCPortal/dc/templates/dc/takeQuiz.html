@@ -39,7 +39,7 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
                             <label for="{{ forloop.counter }}">{{ option }}</label><br>
 
@@ -56,7 +56,7 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
                             <label for="{{ forloop.counter }}">{{ option }}</label><br>
 
@@ -79,7 +79,7 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz3_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
                             <label for="{{ forloop.counter }}">{{ option }}</label><br>
 
@@ -107,11 +107,11 @@
                         </audio>
                         <br>
                     {% endfor %}
-                
+
                     <!-- image -->
                     <div class="form-group">
                         <label for="id_image">Image(only PNG)</label>
-                        <input type="file" name="image" id="id_image" accept="image/png" required>
+                        <input type="file" name="image" id="id_image" accept="image/png">
                     </div>
                     <!--End image -->
 
