@@ -6,17 +6,17 @@ from django.conf import settings
 
 class Quiz1:
     WORDS = ["কলা । পলা । লেখা",
-            "নীতি । বৃষ্টি । মিষ্টি",
-            "জল । কল । ঘর",
-            "নালী । জালি । হাতি", 
-            "গান । নাচ । পান", 
-            "হাসি । জাতি । কাশি",
-            "বলি । পরী । জরি",
-            "ঠিক । ভুল । ঝুল",
-            "গোল । বন । খোল",
-            "যান । মান । ডাব",
-            "থাবা । বাবা । মামা",
-            "শেষ । মেষ । লাল"]
+             "নীতি । বৃষ্টি । মিষ্টি",
+             "জল । কল । ঘর",
+             "নালী । জালি । হাতি",
+             "গান । নাচ । পান",
+             "হাসি । জাতি । কাশি",
+             "বলি । পরী । জরি",
+             "ঠিক । ভুল । ঝুল",
+             "গোল । বন । খোল",
+             "যান । মান । ডাব",
+             "থাবা । বাবা । মামা",
+             "শেষ । মেষ । লাল"]
 
     ANSWERS = [
         (1, 1, 0),
@@ -36,7 +36,7 @@ class Quiz1:
     def __init__(self):
         self.n = len(self.WORDS)
         self.split_words = [tuple(map(lambda x: x.strip(), i.split("।"))) for i in self.WORDS]
-        self.options = self.createOptions()
+        self.options = ["1,2", "2,3", "1,3"]
         self.generateAudio()
         self.files = [os.path.join('/media', 'r1', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)]
 
@@ -59,7 +59,7 @@ class Quiz1:
             arr.append(
                 {
                     'words': self.WORDS[i],
-                    'options': self.options[i],
+                    'options': self.options,
                     'split_words': self.split_words[i],
                     'file': self.files[i]
                 }
@@ -74,6 +74,18 @@ class Quiz1:
                 ans[i] = 1
         return tuple(ans)
 
+    def optToOHC(self, question: int, answer: int):
+        opt = self.optionToResponse(question, answer)
+        ans = [0] * 3
+        for i in range(3):
+            if self.split_words[question][i] in opt:
+                ans[i] = 1
+        return tuple(ans)
+
+    def optionToResponse(self, question_no: int, opt_no: int):
+        ans_idx = list(map(int, self.options[opt_no].split(',')))
+        return ", ".join([self.split_words[question_no][i - 1] for i in ans_idx])
+
     def score(self, obj):
 
         def clean():
@@ -84,10 +96,16 @@ class Quiz1:
             return temp
 
         res = clean()
-        answers = [
-            self.optionToArgmax(i, res[i]) == self.ANSWERS[i]
+        score = sum([
+            self.optToOHC(i, res[i]) == self.ANSWERS[i]
             for i in range(self.n)
-        ]
-
-        print(res)
-        return sum(answers)
+        ])
+        answers = {
+            'score': score,
+            'responses': {
+                i + 1: self.optionToResponse(i, res[i])
+                for i in range(self.n)
+            }
+        }
+        # print(answers)
+        return answers
