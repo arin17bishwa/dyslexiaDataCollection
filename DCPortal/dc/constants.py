@@ -267,4 +267,5 @@ class Quiz3:
 
 
 class Quiz4:
-    pass
+    LETTERS = []
+    WORDS = []
