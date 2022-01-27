@@ -43,9 +43,11 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}"
+                                   id="quiz1_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
-                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+                            <label for="quiz1_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
+                            <br>
 
                         {% endfor %}
 
@@ -62,9 +64,11 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="quiz2_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz2_{{ forloop.parentloop.counter }}"
+                                   id="quiz2_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
-                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+                            <label for="quiz2_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
+                            <br>
 
                         {% endfor %}
 
@@ -88,9 +92,11 @@
                         </audio>
                         <br>
                         {% for option in question.options %}
-                            <input type="radio" name="quiz3_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                            <input type="radio" name="quiz3_{{ forloop.parentloop.counter }}"
+                                   id="quiz3_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
                                    value="{{ forloop.counter0 }}">
-                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+                            <label for="quiz3_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
+                            <br>
 
                         {% endfor %}
 
