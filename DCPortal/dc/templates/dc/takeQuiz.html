@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Take Quiz
+{% endblock %}
+
+
+{% block content %}
+
+    <style type="text/css">
+        .create-form {
+            width: 100%;
+            max-width: 100%;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .submit-button {
+            max-width: 200px;
+        }
+    </style>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 offset-lg-1">
+                <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
+
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name"><br><br>
+                    <label for="Age">Age:</label>
+                    <input type="number" id="age" name="age"><br><br>
+
+                    <!-- ROUND 1 -->
+                    <h2>ROUND 1</h2>
+                    {% for question in quiz1 %}
+                        {{ forloop.counter }})
+                        <p>{{ question.words }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                        {% for option in question.options %}
+                            <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                                   value="{{ forloop.counter0 }}">
+                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+
+                        {% endfor %}
+
+                    {% endfor %}
+                    <!-- END ROUND 1 -->
+
+                    <!-- ROUND 2 -->
+                    <h2>ROUND 2</h2>
+                    {% for question in quiz2 %}
+                        {{ forloop.counter }})
+                        <p>{{ question.question }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                        {% for option in question.options %}
+                            <input type="radio" name="quiz2_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                                   value="{{ forloop.counter0 }}">
+                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+
+                        {% endfor %}
+
+                    {% endfor %}
+                    <!-- END ROUND 2 -->
+
+
+                    <!-- ROUND 3 -->
+                    <h2>ROUND 3</h2>
+                    <p>{{ quiz3.paragraph }}</p>
+                    <audio controls>
+                        <source src="{{ quiz3.paragraph_file }}">
+                    </audio>
+                    <br><br>
+
+                    {% for question in quiz3.questions %}
+                        {{ forloop.counter }})
+                        <p>{{ question.question }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                        {% for option in question.options %}
+                            <input type="radio" name="quiz3_{{ forloop.parentloop.counter }}" id="{{ forloop.counter }}"
+                                   value="{{ forloop.counter0 }}">
+                            <label for="{{ forloop.counter }}">{{ option }}</label><br>
+
+                        {% endfor %}
+
+                    {% endfor %}
+                    <!-- END ROUND 3 -->
+
+
+                    <!-- ROUND 4 -->
+                    <h2>ROUND 4</h2>
+
+                    <h3>LETTERS</h3>
+                    {% for question in quiz4.letters %}
+                        {{ forloop.counter }})
+                        <p>{{ question.letter }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                    {% endfor %}
+
+                    <h3>WORDS</h3>
+                    {% for question in quiz4.words %}
+                        {{ forloop.counter }})
+                        <p>{{ question.word }}</p>
+                        <audio controls>
+                            <source src="{{ question.file }}">
+                        </audio>
+                        <br>
+                    {% endfor %}
+
+                    <!-- image -->
+                    <div class="form-group">
+                        <label for="id_image">Image(only PNG)</label>
+                        <input type="file" name="image" id="id_image" accept="image/png">
+                    </div>
+                    <!--End image -->
+
+                    <!-- END ROUND 4 -->
+
+                    <!-- Submit btn -->
+                    <button class=" submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
