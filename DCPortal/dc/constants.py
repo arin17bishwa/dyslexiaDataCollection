@@ -178,7 +178,6 @@ class Quiz2:
 
     def score(self, obj):
         def clean():
-            print(obj)
             temp = {
                 i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
                 for i in range(self.n)
@@ -250,7 +249,6 @@ class Quiz3:
 
     def score(self, obj):
         def clean():
-            print(obj)
             temp = {
                 i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
                 for i in range(self.n)
@@ -297,21 +295,20 @@ class Quiz4:
         self.words_n = len(self.WORDS)
         self.generateAudio()
         self.files = {
-            'words': [os.path.join('media', 'r4', 'words', '{:02d}.mp3'.format(i + 1)) for i in range(self.words_n)],
-            'letters': [os.path.join('media', 'r4', 'letters', '{:02d}.mp3'.format(i + 1)) for i in
+            'words': [os.path.join('/media', 'r4', 'words', '{:02d}.mp3'.format(i + 1)) for i in range(self.words_n)],
+            'letters': [os.path.join('/media', 'r4', 'letters', '{:02d}.mp3'.format(i + 1)) for i in
                         range(self.letters_n)]
         }
         self.__base = 'quiz4'
 
     def generateAudio(self):
         base_path = os.path.join(settings.MEDIA_ROOT, 'r4')
-        if os.path.exists(base_path):
-            return
-        os.mkdir(base_path)
         letter_path = os.path.join(base_path, 'letters')
         word_path = os.path.join(base_path, 'words')
-        os.mkdir(letter_path)
-        os.mkdir(word_path)
+        if os.path.exists(os.path.join(word_path, '{:02d}.mp3'.format(self.words_n))):
+            return
+        os.makedirs(letter_path)
+        os.makedirs(word_path)
 
         for idx, ele in enumerate(self.LETTERS):
             file_path = os.path.join(letter_path, '{:02d}.mp3'.format(idx + 1))
