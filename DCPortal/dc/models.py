@@ -2,6 +2,13 @@ from django.db import models
 
 
 # Create your models here.
+def upload_location(instance, filename, **kwargs):
+    file_path = 'r4/{author_id:05d}_{filename}'.format(
+        author_id=instance.id,
+        filename=filename
+    )
+    print(file_path)
+    return file_path
 
 
 class Data(models.Model):
@@ -13,6 +20,11 @@ class Data(models.Model):
     answer1 = models.JSONField(null=True)
     answer2 = models.JSONField(null=True)
     answer3 = models.JSONField(null=True)
+    image = models.FileField(
+        upload_to=upload_location,
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return "Name:{} Age:{} ({},{},{})".format(
@@ -20,3 +32,6 @@ class Data(models.Model):
             self.age,
             self.score1, self.score2, self.score3
         )
+
+    def __repr__(self):
+        return self.__str__()
