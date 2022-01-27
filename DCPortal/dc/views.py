@@ -15,21 +15,25 @@ def takeQuizView(request):
         res = request.POST
         name = res['name']
         age = res['age']
-        # round1 = quiz1.score(res)
-        # round2 = quiz2.score(res)
-        # round3 = quiz3.score(res)
+        round1 = quiz1.score(res)
+        round2 = quiz2.score(res)
+        round3 = quiz3.score(res)
         form = UploadForm(request.FILES or None)
-        # print(round3)
-        if form.is_valid():
+        if form.is_valid() or 1:
             obj = Data(
                 name=name,
                 age=int(age or '0'),
-                # score3=round3['score'],
-                # answer3=round3['responses']
+                score1=round1['score'],
+                answer1=round1['responses'],
+                score2=round2['score'],
+                answer2=round2['responses'],
+                score3=round3['score'],
+                answer3=round3['responses'],
             )
             obj.save()
-            obj.image = request.FILES['image']
-            obj.save()
+            if request.FILES.get('image'):
+                obj.image = request.FILES['image']
+                obj.save()
         return redirect('dc:takeQuiz')
     else:
         context = {}
@@ -38,10 +42,10 @@ def takeQuizView(request):
         quiz3 = Quiz3()
         quiz4 = Quiz4()
         context = {
-            # 'quiz1': quiz1.serialize(),
-            # 'quiz2': quiz2.serialize(),
+            'quiz1': quiz1.serialize(),
+            'quiz2': quiz2.serialize(),
             'quiz3': quiz3.serialize(),
-            # 'quiz4': quiz4.serialize(),
+            'quiz4': quiz4.serialize(),
         }
         # print(context['quiz3'].keys())
         return render(request, 'dc/takeQuiz.html', context=context)
