@@ -39,6 +39,7 @@ class Quiz1:
         self.options = ["1,2", "2,3", "1,3"]
         self.generateAudio()
         self.files = [os.path.join('/media', 'r1', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)]
+        self.__base = 'quiz1'
 
     def createOptions(self):
         options = [tuple(map(lambda x: ", ".join(x), combinations(i, 2))) for i in self.split_words]
@@ -90,7 +91,7 @@ class Quiz1:
 
         def clean():
             temp = {
-                i: int(obj.get(str(i + 1), 0))
+                i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
                 for i in range(self.n)
             }
             return temp
@@ -152,6 +153,7 @@ class Quiz2:
         self.n = len(self.QUESTIONS)
         self.generateAudio()
         self.files = [os.path.join('/media', 'r2', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)]
+        self.__base = 'quiz2'
 
     def generateAudio(self):
         base_path = os.path.join(settings.BASE_DIR, 'media_cdn', 'r2')
@@ -178,7 +180,7 @@ class Quiz2:
         def clean():
             print(obj)
             temp = {
-                i: int(obj.get(str(i + 1), 0))
+                i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
                 for i in range(self.n)
             }
             return temp
@@ -216,6 +218,7 @@ class Quiz3:
         self.generateAudio()
         self.files = [os.path.join('/media', 'r3', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)] + [
             os.path.join('/media', 'r3', self.para_audio_name)]
+        self.__base = 'quiz3'
 
     def generateAudio(self):
         base_path = os.path.join(settings.BASE_DIR, 'media_cdn', 'r3')
@@ -249,7 +252,7 @@ class Quiz3:
         def clean():
             print(obj)
             temp = {
-                i: int(obj.get(str(i + 1), 0))
+                i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
                 for i in range(self.n)
             }
             return temp
@@ -298,6 +301,7 @@ class Quiz4:
             'letters': [os.path.join('media', 'r4', 'letters', '{:02d}.mp3'.format(i + 1)) for i in
                         range(self.letters_n)]
         }
+        self.__base = 'quiz4'
 
     def generateAudio(self):
         base_path = os.path.join(settings.MEDIA_ROOT, 'r4')
