@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Data
 from .constants import Quiz1
@@ -12,13 +11,12 @@ def takeQuizView(request):
         res = request.POST
         name = res['name']
         age = res['age']
-        print(res)
-        s1 = quiz1.score(res)
+        round1 = quiz1.score(res)
         Data.objects.create(
             name=name,
-            age=int(age),
-            score1=s1
-
+            age=int(age or '0'),
+            score1=round1['score'],
+            answer1=round1['responses']
         )
         return redirect('dc:takeQuiz')
     else:
