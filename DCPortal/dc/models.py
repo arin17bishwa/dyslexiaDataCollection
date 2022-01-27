@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 def upload_location(instance, filename, **kwargs):
-    file_path = 'r4/{_id:05d}_{filename}'.format(
+    file_path = 'r4/images/{_id:05d}_{filename}'.format(
         _id=instance.id,
         filename=filename
     )
