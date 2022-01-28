@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from dc.views import home
+from dc.views import home, downloadCSVView
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('take-quiz/', include('dc.urls', namespace='dc')),
-                  path('', home),
+                  path('', home, name='home'),
+                  path('csv/', downloadCSVView, name='download_csv'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
