@@ -20,6 +20,48 @@
         .submit-button {
             max-width: 200px;
         }
+
+        .label_name {
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 18px;
+            color: #333;
+            height: 20px;
+            width: 200px;
+            margin-top: 10px;
+            margin-right: 15px;
+            text-align: right;
+            clear: both;
+            float:left;
+           }
+
+        label {
+            font-family: Georgia, "Times New Roman", Times, serif;
+            font-size: 18px;
+            color: #333;
+           }
+
+           input[type="radio"] {
+            -ms-transform: scale(1.5); /* IE 9 */
+            -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+            transform: scale(1.5);
+        }
+           
+           .input_name {
+            height: 20px;
+            width: 300px;
+            border: 2px solid #000;
+            margin-top: 10px;
+            float: left;
+           }
+
+           .input_age {
+            height: 20px;
+            width: 125px;
+            border: 2px solid #000;
+            margin-top: 10px;
+            float: left;
+           }
+        
     </style>
 
 
@@ -28,16 +70,20 @@
             <div class="col-lg-7 offset-lg-1">
                 <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
 
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name"><br><br>
-                    <label for="Age">Age:</label>
-                    <input type="number" id="age" name="age"><br><br>
+                    <label for="name" class ="label_name" >Name:</label>
+                    <input type="text" id="name" name="name" class ="input_name"><br><br>
+
+                    <label for="Age" class = "label_name">Age:</label>
+                    <input type="number" id="age" name="age" class ="input_age"><br><br>
 
                     <!-- ROUND 1 -->
                     <h2>ROUND 1</h2>
+                    <h3>এখন আমরা অনুরুপ-ধ্বনির শব্দ নিয়ে একটি মজার
+                    খেলা খেলব। এই যেমন, আমি ৩টি শব্দ বলব, যার মধ্যে
+                    কোন ২টি শব্দের শেষে মিল আছে / অন্ত্যমিল আছে তা তুমি
+                    আমাকে বলবে।</h3>
                     {% for question in quiz1 %}
-                        {{ forloop.counter }})
-                        <p>{{ question.words }}</p>
+                        <p style = "color:blue; font-size:20px">{{ forloop.counter }}) {{ question.words }}</p>
                         <audio controls>
                             <source src="{{ question.file }}">
                         </audio>
@@ -45,20 +91,22 @@
                         {% for option in question.options %}
                             <input type="radio" name="quiz1_{{ forloop.parentloop.counter }}"
                                    id="quiz1_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
-                                   value="{{ forloop.counter0 }}">
+                                   value="{{ forloop.counter0 }}"> &nbsp
                             <label for="quiz1_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
                             <br>
+                        
 
                         {% endfor %}
+                        <br>
 
                     {% endfor %}
                     <!-- END ROUND 1 -->
 
                     <!-- ROUND 2 -->
                     <h2>ROUND 2</h2>
+                    <h3>এখন আমরা শব্দের ধ্বনি দিয়ে একটি নতুন খেলা খেলব।   যেমন, আমি একটি শব্দ বলব - 'শাড়ি', যার মধ্যে   ২টি ধ্বনি আছে - 'শা' এবং 'ড়ি'। যদি আমরা প্রথম অংশের ধ্বনিটি 'শা' বদলে, 'বা' ধ্বনি যোগ করি, আমরা একটি নতুন শব্দ পাই-'বাড়ি'। অতএব, যদি আমরা 'শাড়ি' শব্দের 'শা' বদলে 'বা' লিখি, তাহলে যে নতুন শব্দটি পাই, সেটি কি?</h3>
                     {% for question in quiz2 %}
-                        {{ forloop.counter }})
-                        <p>{{ question.question }}</p>
+                        <p style = "color:blue; font-size:20px" >{{ forloop.counter }}) {{ question.question }}</p>
                         <audio controls>
                             <source src="{{ question.file }}">
                         </audio>
@@ -66,26 +114,27 @@
                         {% for option in question.options %}
                             <input type="radio" name="quiz2_{{ forloop.parentloop.counter }}"
                                    id="quiz2_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
-                                   value="{{ forloop.counter0 }}">
+                                   value="{{ forloop.counter0 }}"> &nbsp
                             <label for="quiz2_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
+                            <br>
                             <br>
 
                         {% endfor %}
-
+                        
                     {% endfor %}
                     <!-- END ROUND 2 -->
 
 
                     <!-- ROUND 3 -->
                     <h2>ROUND 3</h2>
+                    <h3>এখন, আমি গল্পটি  সম্পর্কে ৫টি সরল প্রশ্ন জিজ্ঞাসা করব। তোমাকে সহজ ভাষায় তার উত্তর বলতে হবে। ৫ নম্বর প্রশ্নে তোমার ব্যক্তিগত পছন্দের কথা বলবে। অবশেষে, তুমি নিজের সহজ ভাষায় গল্পটি বলবে।”</h3>
                     <audio controls>
                         <source src="{{ quiz3.paragraph_file }}">
                     </audio>
                     <br><br>
 
                     {% for question in quiz3.questions %}
-                        {{ forloop.counter }})
-                        <p>{{ question.question }}</p>
+                        <p style = "color:blue; font-size:20px">{{ forloop.counter }}) {{ question.question }}</p>
                         <audio controls>
                             <source src="{{ question.file }}">
                         </audio>
@@ -93,8 +142,9 @@
                         {% for option in question.options %}
                             <input type="radio" name="quiz3_{{ forloop.parentloop.counter }}"
                                    id="quiz3_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}"
-                                   value="{{ forloop.counter0 }}">
+                                   value="{{ forloop.counter0 }}"> &nbsp
                             <label for="quiz3_id_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ option }}</label>
+                            <br>
                             <br>
 
                         {% endfor %}
@@ -106,23 +156,25 @@
                     <!-- ROUND 4 -->
                     <h2>ROUND 4</h2>
 
+                    <h3>এখন, এই সাদা পাতায় তোমাকে কয়েকটি অক্ষর  এবং শব্দের বানান লিখতে  হবে যা আমি জোরে পড়ব। </h3>
+
                     <h3>LETTERS</h3>
                     {% for question in quiz4.letters %}
-                        {{ forloop.counter }})
-                        <p>{{ question.letter }}</p>
+                        <p style = "color:blue; font-size:20px">{{ forloop.counter }}) {{ question.letter }}</p>
                         <audio controls>
                             <source src="{{ question.file }}">
                         </audio>
+                        <br>
                         <br>
                     {% endfor %}
 
                     <h3>WORDS</h3>
                     {% for question in quiz4.words %}
-                        {{ forloop.counter }})
-                        <p>{{ question.word }}</p>
+                        <p style = "color:blue; font-size:20px">{{ forloop.counter }}) {{ question.word }}</p>
                         <audio controls>
                             <source src="{{ question.file }}">
                         </audio>
+                        <br>
                         <br>
                     {% endfor %}
 
@@ -136,7 +188,7 @@
                     <!-- END ROUND 4 -->
 
                     <!-- Submit btn -->
-                    <button class=" submit-button btn btn-lg btn-primary btn-block" type="submit">POST</button>
+                    <button class=" submit-button btn btn-lg btn-primary btn-block" type="submit">Submit</button>
                 </form>
             </div>
         </div>

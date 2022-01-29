@@ -1,18 +1,100 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Coming soon | LCO</title>
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body>
+		<style>
+            div {
+                height: 200px;
+                width: 400px;
+            
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-top: -100px;
+                margin-left: -200px;
+            }
+			body {
+				background: linear-gradient(90deg, #4B0082
+                0%, #3a47d5 100%);
+				color: #fff;
+			}
 
-{% load static %}
-{% block title %}
-    Home
-{% endblock %}
+            .button {
+                display: block;
+                width: 250px;
+                height: 35px;
+                background: #4E9CAF;
+                padding: 10px;
+                text-align: center;
+                border-radius: 15px;
+                color: white;
+                font-weight: bold;
+                line-height: 25px;
+            }
 
-{% block content %}
+            .button2 {
+                display: block;
+                width: 100px;
+                height: 35px;
+                background: #4E9CAF;
+                padding: 10px;
+                text-align: center;
+                border-radius: 15px;
+                color: white;
+                font-weight: bold;
+                line-height: 25px;
+            }
 
-    <h2><a href={% url 'dc:takeQuiz' %}>TAKE QUIZ</a></h2>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <h3><a href={% url 'download_csv' %}>download</a></h3>
-{% endblock %}
+			.container {
+				height: 100vh;
+				width: 100vw;
+			}
+
+			.wrapper {
+				margin: 0 auto;
+				height: 500px;
+				width: 500px;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				border: 3px solid black;
+			}
+
+			.left,
+			.right {
+				height: 100px;
+				width: 100px;
+				background-color: #fff;
+
+				animation: pump 1.5s linear infinite;
+			}
+
+			@keyframes pump {
+				0%,
+				100% {
+					transform: scale(0);
+				}
+				75% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(0);
+				}
+			}
+		</style>
+		<div class="banner">
+			<div class="text-container">
+				<center><h1 style="font-size:35px;"> <a class="button" href={% url 'dc:takeQuiz' %}>TAKE QUIZ</a></h1></center>   
+
+                <center><a class="button2" href={% url 'download_csv' %}>Download csv</center></a>
+				
+			</div>
+		</div>
+	</body>
+</html>
