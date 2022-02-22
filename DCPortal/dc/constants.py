@@ -33,20 +33,26 @@ class Quiz1:
         (1, 1, 0)
     ]
 
-    def __init__(self):
+    def __init__(self, base='quiz1', directory='r1', *args, **kwargs):
         self.n = len(self.WORDS)
         self.split_words = [tuple(map(lambda x: x.strip(), i.split("।"))) for i in self.WORDS]
         self.options = ["1,2", "2,3", "1,3"]
+        self.__directory = directory
         self.generateAudio()
-        self.files = [os.path.join('/media', 'r1', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)]
-        self.__base = 'quiz1'
+        self.files = self.getFilePaths()
+        self.__base = base
+
+    def getFilePaths(self, *args, **kwargs):
+        return [os.path.join(os.path.sep + 'media', self.__directory, '{:02d}.mp3'.format(i + 1)) for i in
+                range(self.n)]
 
     def createOptions(self):
         options = [tuple(map(lambda x: ", ".join(x), combinations(i, 2))) for i in self.split_words]
         return options
 
     def generateAudio(self):
-        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', 'r1')
+        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', self.__directory)
+        print(base_path)
         if os.path.exists(base_path):
             return
         os.mkdir(base_path)
@@ -54,10 +60,10 @@ class Quiz1:
             file_path = os.path.join(base_path, '{:02d}.mp3'.format(idx + 1))
             _ = gTTS(text=ele, lang='bn', slow='True').save(file_path)
 
-    def serialize(self) -> list:
-        arr = []
+    def serialize(self) -> dict:
+        arr = {'questions': [], 'base': self.__base}
         for i in range(self.n):
-            arr.append(
+            arr["questions"].append(
                 {
                     'words': self.WORDS[i],
                     'options': self.options,
@@ -149,14 +155,19 @@ class Quiz2:
         (0)
     ]
 
-    def __init__(self):
+    def __init__(self, base='quiz2', directory='r2', *args, **kwargs):
         self.n = len(self.QUESTIONS)
+        self.__directory = directory
         self.generateAudio()
-        self.files = [os.path.join('/media', 'r2', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)]
-        self.__base = 'quiz2'
+        self.files = self.getFilePaths()
+        self.__base = base
 
-    def generateAudio(self):
-        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', 'r2')
+    def getFilePaths(self, *args, **kwargs):
+        return [os.path.join(os.path.sep + 'media', self.__directory, '{:02d}.mp3'.format(i + 1)) for i in
+                range(self.n)]
+
+    def generateAudio(self, slow=True):
+        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', self.__directory)
         if os.path.exists(base_path):
             return
         os.mkdir(base_path)
@@ -164,10 +175,10 @@ class Quiz2:
             file_path = os.path.join(base_path, '{:02d}.mp3'.format(idx + 1))
             _ = gTTS(text=ele, lang='bn', slow='True').save(file_path)
 
-    def serialize(self) -> list:
-        arr = []
+    def serialize(self) -> dict:
+        arr = {'questions': [], 'base': self.__base}
         for i in range(self.n):
-            arr.append(
+            arr["questions"].append(
                 {
                     'question': self.QUESTIONS[i],
                     'options': self.OPTIONS[i],
@@ -211,16 +222,21 @@ class Quiz3:
                (0),
                (0), ]
 
-    def __init__(self):
+    def __init__(self, base='quiz3', directory='r3', *args, **kwargs):
         self.n = len(self.QUESTIONS)
         self.para_audio_name = "paragraph.mp3"
+        self.__directory = directory
         self.generateAudio()
-        self.files = [os.path.join('/media', 'r3', '{:02d}.mp3'.format(i + 1)) for i in range(self.n)] + [
-            os.path.join('/media', 'r3', self.para_audio_name)]
-        self.__base = 'quiz3'
+        self.files = self.getFilePaths()
+        self.__base = base
+
+    def getFilePaths(self, *args, **kwargs):
+        return [os.path.join(os.path.sep + 'media', self.__directory, '{:02d}.mp3'.format(i + 1)) for i in
+                range(self.n)] + [
+                   os.path.join(os.path.sep + 'media', self.__directory, self.para_audio_name)]
 
     def generateAudio(self):
-        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', 'r3')
+        base_path = os.path.join(settings.BASE_DIR, 'media_cdn', self.__directory)
         if os.path.exists(base_path):
             return
         os.mkdir(base_path)
@@ -231,7 +247,7 @@ class Quiz3:
         _ = gTTS(
             text=self.PARAGRAPH,
             lang='bn',
-            slow='True'
+            slow=False
         ).save(os.path.join(base_path, self.para_audio_name))
 
     def serialize(self):
@@ -243,7 +259,8 @@ class Quiz3:
             }
                 for i in range(self.n)],
             'paragraph': self.PARAGRAPH,
-            'paragraph_file': self.files[-1]
+            'paragraph_file': self.files[-1],
+            'base': self.__base
         }
         return arr
 
@@ -290,19 +307,26 @@ class Quiz4:
              "উপবাস",
              "শক্তিশালী"]
 
-    def __init__(self):
+    def __init__(self, base='quiz4', directory='r4', *args, **kwargs):
         self.letters_n = len(self.LETTERS)
         self.words_n = len(self.WORDS)
+        self.__directory = directory
         self.generateAudio()
-        self.files = {
-            'words': [os.path.join('/media', 'r4', 'words', '{:02d}.mp3'.format(i + 1)) for i in range(self.words_n)],
-            'letters': [os.path.join('/media', 'r4', 'letters', '{:02d}.mp3'.format(i + 1)) for i in
+        self.files = self.getFilePaths()
+        self.__base = base
+
+    def getFilePaths(self, *args, **kwargs):
+        return {
+            'words': [os.path.join(os.path.sep + 'media', self.__directory, 'words', '{:02d}.mp3'.format(i + 1)) for i
+                      in
+                      range(self.words_n)],
+            'letters': [os.path.join(os.path.sep + 'media', self.__directory, 'letters', '{:02d}.mp3'.format(i + 1)) for
+                        i in
                         range(self.letters_n)]
         }
-        self.__base = 'quiz4'
 
     def generateAudio(self):
-        base_path = os.path.join(settings.MEDIA_ROOT, 'r4')
+        base_path = os.path.join(settings.MEDIA_ROOT, self.__directory)
         letter_path = os.path.join(base_path, 'letters')
         word_path = os.path.join(base_path, 'words')
         if os.path.exists(os.path.join(word_path, '{:02d}.mp3'.format(self.words_n))):
@@ -327,7 +351,178 @@ class Quiz4:
             'letters': [{
                 'letter': self.LETTERS[i],
                 'file': self.files['letters'][i]
-            } for i in range(self.letters_n)]
+            } for i in range(self.letters_n)],
+            'base': self.__base
 
         }
         return arr
+
+
+class OlderQuiz1(Quiz1):
+    WORDS = ["ধাঁধা । সাদা । বাঁধা",
+             "নীতি । বৃষ্টি । মিষ্টি",
+             "গল্প । অল্প । শুল্ক",
+             "ভাঙ্গা । ডাঙ্গা । ভাজা",
+             "আজীবন । অনুশীলন । সঘন",
+             "উদারতা । উপাসনা । প্রার্থনা",
+             "ঘৃণা । জিজ্ঞাসা । বাসনা",
+             "বাতাস । বাসা । আশ্বাস",
+             "বাল্য । মূল্য । পুণ্য",
+             "সংক্রান্ত । জগত । প্রতিশ্রুত",
+             "শ্রীকৃষ্ণ । অপরাহ্ন । বিষবৃক্ষ",
+             "আনুগত্য । সাফল্য । দাম্পত্য"]
+
+    ANSWERS = [
+        (1, 0, 1),
+        (0, 1, 1),
+        (1, 1, 0),
+        (1, 1, 0),
+        (1, 0, 1),
+        (0, 1, 1),
+        (1, 0, 1),
+        (1, 0, 1),
+        (1, 1, 0),
+        (0, 1, 1),
+        (1, 1, 0),
+        (1, 0, 1)
+    ]
+
+    def __init__(self, base='quiz5', directory='r1_older', *args, **kwargs):
+        super().__init__(base=base, directory=directory)
+        self.__base = base
+        self.__directory = directory
+
+
+class OlderQuiz2(Quiz2):
+    QUESTIONS = [" ‘পুতুল’ শব্দটির ‘পু’ বদলে ‘তেঁ’ করলে কি শব্দ হয়? ",
+                 " ‘শান্তি’ শব্দটির ‘শা’ বদলে ‘ক্লা’ করলে কি শব্দ হয়? ",
+                 " ‘মৈত্রী’ শব্দটির ‘মৈ’ বদলে ‘জৈ’ করলে কি শব্দ হয়? ",
+                 " ‘গর্জন’ শব্দটির ‘গ’ বদলে ‘উপা’ করলে কি শব্দ হয়? ",
+                 " ‘আর্দ্রতা’ শব্দটির ‘আর্দ্র’ বদলে ‘অভদ্র’ করলে কি শব্দ হয়? ",
+                 " ‘মহত্ত্ব’ শব্দটির ‘ম’ বদলে ‘বৃ’ করলে কি শব্দ হয়? ",
+                 " ‘তপ্ত’ শব্দটির ‘ত’ বদলে ‘তৃ’ করলে কি শব্দ হয়? ",
+                 " ‘অস্ত্র’ শব্দটির ‘অ’ বদলে ‘ব’ করলে কি শব্দ হয়? ",
+                 " ‘আরোহণ’ শব্দটির ‘আ’ বদলে ‘অব’ করলে কি শব্দ হয়? ",
+                 " ‘উচ্ছৃঙ্খল’ শব্দটির ‘উ’ বদলে ‘বি’ করলে কি শব্দ হয়? "]
+
+    OPTIONS = [
+        ['তেঁতুল', 'কেতুল', 'গেতুল', 'সেতুল'],
+        ['ক্লান্তি', 'স্লান্তি', 'ম্লান্তি', 'ব্লান্তি'],
+        ['জৈত্রী', 'সইত্রি', 'রইত্রি', 'নইত্রি'],
+        ['সুপারজন', 'উপার্জন', 'রুপারজন', 'মুপারজন'],
+        ['অভদ্রতা', 'সভদ্রতা্‌', 'সাদ্রতা', 'রাদ্রতা'],
+        ['বৃহত্ত্ব', 'নহত্ত্ব', 'সহত্ত্ব', 'লহত্ত্ব'],
+        ['স্রিপ্ত', 'তৃপ্ত', 'ক্রিপ্ত', 'ম্রিপ্ত'],
+        ['সস্ত্র', 'মস্ত্র', 'বস্ত্র', 'নস্ত্র'],
+        ['সবরোহণ', 'অবরোহণ', 'কবরোহণ', 'মবরোহণ'],
+        ['সিচ্ছৃঙ্খল', 'বিচ্ছৃঙ্খল', 'গিচ্ছৃঙ্খল', 'মিচ্ছৃঙ্খল'],
+    ]
+
+    ANSWERS = [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
+        2,
+        1,
+        1,
+    ]
+
+    def __init__(self, base='quiz6', directory='r2_older', *args, **kwargs):
+        super().__init__(base=base, directory=directory)
+        self.__base = base
+        self.__directory = directory
+
+
+class OlderQuiz3(Quiz3):
+    PARAGRAPH = """অদিতি বারান্দায় এসে তাকিয়ে দেখল হালকা বৃষ্টি হচ্ছে। সে ভাবল, “আজ আমরা বৃষ্টিতে কাগজের নৌকা নিয়ে খেলতে পারি।”
+                সে দেখল তার পাশের বাড়ির বন্ধু মিতাও বারান্দায় দাঁড়িয়ে বৃষ্টি দেখছে। অদিতি মিতাকে ডাকল, “তাড়াতাড়ি চল মিতা! আমরা বৃষ্টিতে কাগজের নৌকা নিয়ে খেলি।” 
+                অদিতি ছুটে এসে তার ঘরে রাখা নৌকাটি নিল। নৌকাটির রঙ ছিল লাল আর নীল। সে মিতাকে বলল, “আমাদের নৌকা ভাসানোর জন্য অনেকটা জল লাগবে। চল, আমরা সামনের ছোট পুকুরটাতে যাই।”
+                মিতা খুশি হয়ে বলল, “হাঁ চল। তোর নৌকাটা কি সুন্দর!”
+                অদিতি মিতাকে বোঝাল, “এটা করা খুব সহজ।প্রথমে একটা বড় মোটা রঙিন কাগজকে বাম থেকে ডানে এবং উপর থেকে নীচে অর্ধেক ভাঁজ করবি। তারপরে, উপরের বাম এবং ডান কোণগুলো ভাঁজ করবি। অবশেষে, নীচের বাকি কাগজের অংশ উপরে সামনে এবং পিছনে ভাঁজ করবি। তারপর যখন ঐ ভাঁজ করা কাগজ সাবধানে খুলবি, তখন দেখতে পাবি কেমন হীরের আকারের একটা সুন্দর নৌকা তৈরি হয়ে গেছে।”
+                ওরা দুজনে পুকুরের সামনের দিকে নৌকা ভাসানো আরম্ভ করল। “চল, চল, চল!” মিতা লাফিয়ে বলল। “আরে, দেখ, আমাদের নৌকা কতদূর যাচ্ছে!”
+                “দেখ, এখন ওটা মাঝ পুকুরে,” অদিতি হেসে বলল। 
+                “বৃষ্টিতে কাগজের নৌকা ভাসানোর কত মজা, তাই না?”  মিতা আনন্দে বলল।
+                এইভাবে, দুই বন্ধু নৌকা ভাসানোতে মশগুল হয়ে থাকলো।"""
+    QUESTIONS = [
+        "অনুচ্ছেদটিতে কতগুলি মানুষ আছে ?",
+        "তাদের নাম কি ?",
+        "তাদের সম্পর্ক কি ?",
+        "আবহাওয়া কেমন ছিল ?",
+        " ততারা কি করছিল ?",
+        "তোমার প্রিয় বা স্মরণীয় বৃষ্টির দিনের অভিজ্ঞতা সম্পর্কে বল।"
+    ]
+    OPTIONS = [
+        ["দুটি", "একটি", "চারটি", "শূন্যটি"],
+        ["মিতা র গীতা", "মিতা র অদিতি", "সীতা র গীতা", "সীতা র অদিতি"],
+        ["বন্ধু", "শত্রু", "বন", "ভাই"],
+        ["গরম", "বৃষ্টি", "শীত", "বসন্ত"],
+        ["খেলা", "ঘোড়া", "বসা", "সয়া"],
+        []
+    ]
+    ANSWERS = [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+    ]
+
+    def __init__(self, base='quiz7', directory='r3_older', *args, **kwargs):
+        super().__init__(base=base, directory=directory)
+        self.__base = base
+        self.__directory = directory
+
+    def score(self, obj):
+        def clean():
+            temp = {
+                i: int(obj.get("{}_{}".format(self.__base, i + 1), 0))
+                for i in range(self.n)
+            }
+            return temp
+
+        res = clean()
+        score = sum(self.ANSWERS[i] == res[i] for i in range(self.n - 1))
+        answers = {
+            "score": score,
+            "responses": {
+                i + 1: self.OPTIONS[i][res[i]]
+                for i in range(self.n - 1)
+            }
+        }
+        return answers
+
+
+class OlderQuiz4(Quiz4):
+    LETTERS = ["উ", "শ", "এ", "র", "ন", "ঈ", "ড়", "ঋ", "ণ", "ৎ"]
+    WORDS = [
+        "নীল",
+        "হাতি",
+        "মিত্র",
+        "খুব",
+        "কঠিন",
+        "সূর্য",
+        "চন্দ্র",
+        "চেষ্টা",
+        "হাস্য",
+        "ক্লান্ত",
+        "দ্রুত",
+        "কর্তব্য",
+        "দৃঢ়",
+        "জোঁক",
+        "স্থির",
+        "পরীক্ষা",
+        "প্রাচীন",
+        "মুশকিল",
+        "উপবাস",
+        "শক্তিশালী"
+    ]
+
+    def __init__(self, base='quiz8', directory='r4_older', *args, **kwargs):
+        super().__init__(base=base, directory=directory, *args, **kwargs)
+        self.__base = base
+        self.__directory = directory
