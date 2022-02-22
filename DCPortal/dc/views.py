@@ -85,19 +85,16 @@ def takeQuizViewOlder(request):
                 obj.save()
         return redirect('dc:takeQuizOlder')
     else:
-        context = {}
         quiz1 = OlderQuiz1()
         quiz2 = OlderQuiz2()
         quiz3 = OlderQuiz3()
         quiz4 = OlderQuiz4()
-        print(quiz1.files)
         context = {
             'quiz1': quiz1.serialize(),
             'quiz2': quiz2.serialize(),
             'quiz3': quiz3.serialize(),
             'quiz4': quiz4.serialize(),
         }
-        # print(context['quiz3'].keys())
         return render(request, 'dc/takeQuiz.html', context=context)
 
 
@@ -111,9 +108,11 @@ def downloadCSVView(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="data.csv"'
 
-    serializer = DataSerializer(Data.objects.all(), many=True, context={'request': request})
+    serializer1 = DataSerializer(Data.objects.all(), many=True, context={'request': request})
+    serializer2 = DataSerializer(Data2.objects.all(), many=True, context={'request': request})
     cols = [field for field in DataSerializer().fields]
     writer = csv.DictWriter(response, fieldnames=cols)
     writer.writeheader()
-    writer.writerows(serializer.data)
+    writer.writerows(serializer1.data)
+    writer.writerows(serializer2.data)
     return response
