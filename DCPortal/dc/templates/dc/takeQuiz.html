@@ -62,11 +62,12 @@
             float: left;
         }
 
-    </style>
 
+    </style>
 
     <div class="container">
         <div class="row">
+            <center><h2 style="font-size:26px;"><a class="button" href={% url 'home' %}>Home</a></h2></center>
             <div class="col-lg-7 offset-lg-1">
                 <form class="create-form" method="post" enctype="multipart/form-data">{% csrf_token %}
 

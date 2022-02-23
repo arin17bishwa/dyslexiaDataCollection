@@ -48,8 +48,7 @@
         border-radius: 15px;
         color: white;
         font-weight: bold;
-        line-height: 25px;
-    }
+        line-height: 25px;    
 
     .container {
         height: 100vh;
@@ -90,12 +89,12 @@
 </style>
 <div class="banner">
     <div class="text-container">
-        <center><h2 style="font-size:35px;"><a class="button" href={% url 'dc:takeQuiz' %}>TAKE QUIZ(CLASS<3)</a></h2>
+        <center><h2 style="font-size:22px;"><a class="button" href={% url 'dc:takeQuiz' %}>TAKE QUIZ (CLASS < 3)</a></h2>
         </center>
-        <center><h2 style="font-size:35px;"><a class="button" href={% url 'dc:takeQuizOlder' %}>TAKE QUIZ(CLASS 3-5)</a>
+        <center><h2 style="font-size:21px;"><a class="button" href={% url 'dc:takeQuizOlder' %}>TAKE QUIZ (CLASS 3-5)</a>
         </h2></center>
 
-        <center><a class="button2" href={% url 'download_csv' %}>Download csv</a></center>
+        <center><a style="font-size:19px;" class="button2" href={% url 'download_csv' %}>Download CSV</a></center>
 
     </div>
 </div>
